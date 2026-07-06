@@ -16,6 +16,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 95vh;
+            position: relative;
         }
 
         /* Container to group and center the layered top-left graphics */
@@ -50,31 +51,53 @@
             z-index: 2; /* Sits on top of the WWW background */
         }
 
-        /* Retro Advertisement Banner Styling */
-        .ad-banner {
-            width: 468px;
-            height: 60px;
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
+        /* Side Advertisement Layout (Fixed columns on left and right) */
+        .side-ad {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 160px;
+            height: 600px;
+            background-color: #000;
             border: 3px inset #ffffff;
-            color: #000000;
-            font-weight: bold;
+            z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 15px auto;
-            text-transform: uppercase;
-            font-size: 14px;
-            box-shadow: 5px 5px 0px #000000;
+            overflow: hidden;
         }
 
-        .ad-banner a {
-            color: #000000;
-            text-decoration: none;
+        .side-ad img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
+        }
+
+        .ad-left {
+            left: 20px;
+        }
+
+        .ad-right {
+            right: 20px;
+        }
+
+        /* Horizontal Advertisement Banner Styling */
+        .ad-banner-horizontal {
+            width: 468px;
+            height: 60px;
+            background-color: #000;
+            border: 3px inset #ffffff;
+            margin: 15px auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        .ad-banner-horizontal img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Simple Centered Content Layout */
@@ -83,6 +106,8 @@
             max-width: 500px;
             width: 100%;
             margin-top: 480px; /* Pushes content down so the giant top-left logos don't overlap it */
+            position: relative;
+            z-index: 5;
         }
 
         /* Responsive shift for narrower screens/mobile views */
@@ -98,9 +123,15 @@
             .main-content {
                 margin-top: 0;
             }
-            .ad-banner {
-                width: 100%;
-                max-width: 468px;
+            .side-ad {
+                position: relative;
+                top: 0;
+                transform: none;
+                margin: 20px auto;
+                width: 300px;
+                height: 250px;
+                left: 0;
+                right: 0;
             }
         }
 
@@ -164,12 +195,19 @@
         <img src="logo.gif" alt="Site Logo" class="front-logo">
     </div>
 
+    <div class="side-ad ad-left">
+        <a href="#"><img id="leftAdImg" src="" alt="Left Advertisement"></a>
+    </div>
+    <div class="side-ad ad-right">
+        <a href="#"><img id="rightAdImg" src="" alt="Right Advertisement"></a>
+    </div>
+
     <div class="main-content">
         
         <marquee scrollamount="4">⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡</marquee>
 
-        <div class="ad-banner">
-            <a href="#">🔥 FREE DOWNLOADS! CLICK HERE NOW! 🔥</a>
+        <div class="ad-banner-horizontal">
+            <a href="#"><img id="topAdImg" src="" alt="Top Advertisement"></a>
         </div>
 
         <h1>💥 title 💥</h1>
@@ -180,8 +218,8 @@
         <button class="btn" id="actionBtn">💥 HIT ME! 💥</button>
         <p id="message">[- Awaiting Interactive Input -]</p>
 
-        <div class="ad-banner" style="background: linear-gradient(45deg, #ffcc00, #ff0000);">
-            <a href="#">⚠️ WARNING: YOUR PC IS NOT OPTIMIZED! CLICK TO FIX! ⚠️</a>
+        <div class="ad-banner-horizontal">
+            <a href="#"><img id="bottomAdImg" src="" alt="Bottom Advertisement"></a>
         </div>
 
         <div class="retro-footer">
@@ -192,6 +230,34 @@
     </div>
 
     <script>
+        // Array configurations referencing images inside your local advertisements folder
+        const horizontalAds = [
+            'advertisements/banner1.gif',
+            'advertisements/banner2.gif',
+            'advertisements/banner3.gif'
+        ];
+
+        const verticalAds = [
+            'advertisements/side1.gif',
+            'advertisements/side2.gif',
+            'advertisements/side3.gif'
+        ];
+
+        // Function to select a random item from an array
+        function getRandomAd(adArray) {
+            const randomIndex = Math.floor(Math.random() * adArray.length);
+            return adArray[randomIndex];
+        }
+
+        // Apply randomized sources once the window loads
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
+            document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
+            document.getElementById('leftAdImg').src = getRandomAd(verticalAds);
+            document.getElementById('rightAdImg').src = getRandomAd(verticalAds);
+        });
+
+        // Hit Button Functionality
         document.getElementById('actionBtn').addEventListener('click', function() {
             const time = new Date().toLocaleTimeString();
             document.getElementById('message').innerHTML = `★ SUCCESS! ★ LINK ESTABLISHED AT: ${time}`;
