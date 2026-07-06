@@ -82,7 +82,7 @@
             overflow: hidden;
         }
 
-        /* FIX: Force vertical images to stretch completely to fill the box dimensions */
+        /* STRETCH FIX: Forces vertical images to fill out 100% width and height cleanly */
         .side-ad-box a,
         .side-ad-box img {
             width: 100%;
@@ -249,7 +249,7 @@
 
     <div class="main-content">
         
-        <marquee scrollamount="4">⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡</marquee>
+        <marquee scrollamount="4" id="scrollingText">⚡⚡⚡ LOADING DYNAMIC PORTAL TEXT... ⚡⚡⚡</marquee>
 
         <div class="top-ad-wrapper">
             <div class="ad-banner-horizontal">
@@ -281,21 +281,31 @@
     <script>
         // --- EDITABLE CONFIGURATIONS ---
         const SIDE_AD_COUNT = 3; 
-        const GITHUB_OWNER = "nofootage2010"; // <-- Change to your GitHub Username
-        const GITHUB_REPO = "nevergetoveryou";       // <-- Change to your Repository Name
+        const GITHUB_OWNER = "nofootage2010"; 
+        const GITHUB_REPO = "nevergetoveryou";       
         const AD_FOLDER_PATH = "Advertisements";
+
+        // --- EDITABLE SENTENCES TABLE ---
+        // Change these or append new strings here to instantly add more random marquee phrases!
+        const randomSentences = [
+            "Welcome to G.T.A. kid.. If you have dreams... consider them gone.",
+            "Hercules Hercules!",
+            "Korolotosophonic parasitic creations of god!",
+            "Multeralastic KneeKiller, a contagious disease spreading through Rigorlia!",
+            "Water Pacific creating is found new Pulpetalios! Nice What Creatures?.."
+        ];
 
         // Fallbacks in case the fetch fails or folder is empty
         let horizontalAds = [];
         let verticalAds = [];
 
-        function getRandomAd(adArray) {
-            if (adArray.length === 0) return '';
-            const randomIndex = Math.floor(Math.random() * adArray.length);
-            return adArray[randomIndex];
+        function getRandomElement(arr) {
+            if (arr.length === 0) return '';
+            const randomIndex = Math.floor(Math.random() * arr.length);
+            return arr[randomIndex];
         }
 
-        // Generates placeholder slots that will be populated once files are sorted
+        // Generates structural vertical elements dynamically
         function generateSideAds(containerId, count) {
             const container = document.getElementById(containerId);
             container.innerHTML = ''; 
@@ -349,19 +359,22 @@
             } finally {
                 // Apply final sorted random paths to layout elements
                 if (horizontalAds.length > 0) {
-                    document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
-                    document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
+                    document.getElementById('topAdImg').src = getRandomElement(horizontalAds);
+                    document.getElementById('bottomAdImg').src = getRandomElement(horizontalAds);
                 }
                 
                 if (verticalAds.length > 0) {
                     document.querySelectorAll('.dynamic-side-img').forEach(img => {
-                        img.src = getRandomAd(verticalAds);
+                        img.src = getRandomElement(verticalAds);
                     });
                 }
             }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            // Pick and apply a completely randomized marquee sentence instantly on load
+            document.getElementById('scrollingText').textContent = getRandomElement(randomSentences);
+
             generateSideAds('leftAdContainer', SIDE_AD_COUNT);
             generateSideAds('rightAdContainer', SIDE_AD_COUNT);
             fetchAdsFromGitHub();
