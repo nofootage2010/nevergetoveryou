@@ -88,7 +88,7 @@
             object-fit: cover;
         }
 
-        /* Top Advertisement Specific Wrapper - Corrected for block flow centering */
+        /* Top Advertisement Specific Wrapper */
         .top-ad-wrapper {
             width: 100%;
             display: flex;
@@ -96,7 +96,7 @@
             margin: 20px 0;
         }
 
-        /* Horizontal Advertisement Banner Styling - Uniform Width across Top & Bottom */
+        /* Horizontal Advertisement Banner Styling */
         .ad-banner-horizontal {
             width: 100%;
             max-width: 960px; 
@@ -121,10 +121,10 @@
             width: 100%;
             height: 100%;
             display: block;
-            object-fit: fill; /* Forces the image assets to scale exactly to the containers dimensions uniformly */
+            object-fit: fill; 
         }
 
-        /* Centered Content Layout - Sized wider to naturally frame the 960px top ad banner */
+        /* Centered Content Layout */
         .main-content {
             text-align: center;
             max-width: 960px;
@@ -276,26 +276,23 @@
     </div>
 
     <script>
-        // --- EDITABLE CONFIGURATION NUMBER ---
+        // --- EDITABLE CONFIGURATIONS ---
         const SIDE_AD_COUNT = 3; 
-        
-        const horizontalAds = [
-            'advertisements/banner1.gif',
-            'advertisements/banner2.gif',
-            'advertisements/banner3.gif'
-        ];
+        const GITHUB_OWNER = "YOUR_GITHUB_USERNAME"; // Replace with your GitHub username
+        const GITHUB_REPO = "YOUR_REPO_NAME";       // Replace with your repository name
+        const AD_FOLDER_PATH = "advertisements";    // The name of your folder containing ads
 
-        const verticalAds = [
-            'advertisements/side1.gif',
-            'advertisements/side2.gif',
-            'advertisements/side3.gif'
-        ];
+        // Fallback placeholders in case the GitHub API request drops or hasn't finished
+        let horizontalAds = ['advertisements/banner1.gif'];
+        let verticalAds = ['advertisements/side1.gif'];
 
+        // Helper function to pick a random index
         function getRandomAd(adArray) {
             const randomIndex = Math.floor(Math.random() * adArray.length);
             return adArray[randomIndex];
         }
 
+        // Generates dynamic layout structural slots for vertical ads
         function generateSideAds(containerId, count) {
             const container = document.getElementById(containerId);
             container.innerHTML = ''; 
@@ -310,6 +307,7 @@
                 const adImg = document.createElement('img');
                 adImg.src = getRandomAd(verticalAds);
                 adImg.alt = 'Side Advertisement';
+                adImg.className = 'dynamic-side-img'; // Class assigned to refresh later
                 
                 adLink.appendChild(adImg);
                 adBox.appendChild(adLink);
@@ -317,14 +315,59 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
-            document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
+        // Fetches file trees directly from your public repository contents
+        async function fetchAdsFromGitHub() {
+            const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${AD_FOLDER_PATH}`;
             
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('Repository data unavailable');
+                
+                const files = await response.json();
+                
+                // Sort all discovered images into horizontal vs vertical groups using text parsing rules
+                const fetchedBanners = [];
+                const fetchedSides = [];
+                
+                files.forEach(file => {
+                    if (file.type === 'file' && /\.(gif|png|jpe?g)$/i.test(file.name)) {
+                        // Keeps paths relative to your local root directory
+                        const localPath = `${AD_FOLDER_PATH}/${file.name}`;
+                        
+                        if (file.name.toLowerCase().includes('banner')) {
+                            fetchedBanners.push(localPath);
+                        } else {
+                            fetchedSides.push(localPath);
+                        }
+                    }
+                });
+
+                if (fetchedBanners.length > 0) horizontalAds = fetchedBanners;
+                if (fetchedSides.length > 0) verticalAds = fetchedSides;
+
+            } catch (error) {
+                console.warn("Using local image fallbacks. Ensure GitHub credentials match configurations.", error);
+            } finally {
+                // Apply final loaded arrays onto image source components
+                document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
+                document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
+
+                document.querySelectorAll('.dynamic-side-img').forEach(img => {
+                    img.src = getRandomAd(verticalAds);
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Build the dynamic columns first using whatever assets are currently indexed
             generateSideAds('leftAdContainer', SIDE_AD_COUNT);
             generateSideAds('rightAdContainer', SIDE_AD_COUNT);
+            
+            // Reach out to GitHub to gather folder updates automatically
+            fetchAdsFromGitHub();
         });
 
+        // Hit Button Functionality
         document.getElementById('actionBtn').addEventListener('click', function() {
             const time = new Date().toLocaleTimeString();
             document.getElementById('message').innerHTML = `★ SUCCESS! ★ LINK ESTABLISHED AT: ${time}`;
