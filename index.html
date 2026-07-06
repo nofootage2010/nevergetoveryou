@@ -51,10 +51,10 @@
             z-index: 2; /* Sits on top of the WWW background */
         }
 
-        /* Side Advertisement Columns (Lowered to clear the logo layout and align with top ad) */
+        /* Side Advertisement Columns - Moved up to line up with the main content */
         .side-ad-column {
             position: absolute;
-            top: 480px; /* Aligns vertically with the top ad banner and main content start */
+            top: 220px; /* Shifted up from 480px to sit neatly below the top left logo area */
             width: 160px;
             display: flex;
             flex-direction: column;
@@ -88,7 +88,7 @@
             object-fit: cover;
         }
 
-        /* Horizontal Advertisement Banner Scaling Improvements */
+        /* Horizontal Advertisement Banner Styling */
         .ad-banner-horizontal {
             width: 100%;
             max-width: 728px; /* Standard leaderboard banner sizing */
@@ -111,12 +111,12 @@
             object-fit: contain; /* Scales proportionally inside the container */
         }
 
-        /* Simple Centered Content Layout - Shifted Up */
+        /* Centered Content Layout - Shifted up to sit closer to the logo line */
         .main-content {
             text-align: center;
             max-width: 500px;
             width: 100%;
-            margin-top: 480px; /* Positioned to start directly after the logo group area */
+            margin-top: 200px; /* Shifted up from 480px to remove the empty middle void */
             position: relative;
             z-index: 5;
         }
@@ -158,7 +158,7 @@
             color: #ffff00;
             font-size: 16px;
             font-weight: bold;
-            margin: 8px 0; /* Tightened text spacing */
+            margin: 8px 0;
         }
 
         /* Simple Chunky Button */
@@ -187,7 +187,7 @@
 
         /* Web Counter Footer */
         .retro-footer {
-            margin-top: 25px; /* Pushed up for less awkward vertical space */
+            margin-top: 25px;
             border-top: 1px solid #ffffff;
             padding-top: 15px;
         }
@@ -242,9 +242,8 @@
 
     <script>
         // --- EDITABLE CONFIGURATION NUMBER ---
-        const SIDE_AD_COUNT = 3; // Change this number to increase or decrease the amount of stacked side ads
+        const SIDE_AD_COUNT = 3; 
         
-        // Array configurations referencing images inside your local advertisements folder
         const horizontalAds = [
             'advertisements/banner1.gif',
             'advertisements/banner2.gif',
@@ -257,16 +256,14 @@
             'advertisements/side3.gif'
         ];
 
-        // Function to select a random item from an array
         function getRandomAd(adArray) {
             const randomIndex = Math.floor(Math.random() * adArray.length);
             return adArray[randomIndex];
         }
 
-        // Function to dynamically generate stacked side advertisements
         function generateSideAds(containerId, count) {
             const container = document.getElementById(containerId);
-            container.innerHTML = ''; // Clear original placeholders
+            container.innerHTML = ''; 
             
             for (let i = 0; i < count; i++) {
                 const adBox = document.createElement('div');
@@ -285,18 +282,14 @@
             }
         }
 
-        // Apply randomized sources once the window loads
         window.addEventListener('DOMContentLoaded', () => {
-            // Set scaling top and bottom banners
             document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
             document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
             
-            // Build the dynamic columns based on SIDE_AD_COUNT
             generateSideAds('leftAdContainer', SIDE_AD_COUNT);
             generateSideAds('rightAdContainer', SIDE_AD_COUNT);
         });
 
-        // Hit Button Functionality
         document.getElementById('actionBtn').addEventListener('click', function() {
             const time = new Date().toLocaleTimeString();
             document.getElementById('message').innerHTML = `★ SUCCESS! ★ LINK ESTABLISHED AT: ${time}`;
