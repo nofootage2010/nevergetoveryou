@@ -5,31 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ :: WELCOME TO MY PROZZAK-STYLE PAGES TEST :: ⚡</title>
     <style>
-        /* Retro Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #ff007f;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #00ffff;
-            border: 2px solid #000;
-        }
-
-        /* Simplified 2000s Web Background */
+        /* Classic 2000s Web Background */
         body {
-            font-family: "Comic Sans MS", "Arial Black", sans-serif;
+            font-family: "Comic Sans MS", "Arial", sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #0336ca; /* Flat vibrant blue for a cleaner look */
+            background-color: #0336ca; /* Flat vibrant blue */
             color: #ffffff;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 95vh;
-            cursor: crosshair;
         }
 
         /* Top-Left Floating Logo */
@@ -37,178 +23,102 @@
             position: absolute;
             top: 15px;
             left: 15px;
-            max-width: 120px;
+            max-width: 100px;
             height: auto;
-            border: 2px solid #00ffff;
-            box-shadow: 3px 3px 0px #000;
+            border: 2px solid #ffff00;
         }
 
-        /* Classic GeoCities-Style Centered Container */
-        .portal-frame {
-            background-color: #111111;
-            border: 4px solid #ff007f;
-            padding: 20px;
+        /* Simple Centered Content Layout */
+        .main-content {
             text-align: center;
-            max-width: 450px;
+            max-width: 500px;
             width: 100%;
-            box-shadow: 8px 8px 0px #000000;
-            margin-top: 60px; /* Leaves room for the top logo on small screens */
-        }
-
-        /* Neon Marquee Header styling */
-        .marquee-container {
-            background: #000;
-            border: 2px inset #00ffff;
-            padding: 4px;
-            margin-bottom: 20px;
+            margin-top: 80px; /* Prevents logo overlap on small screens */
         }
 
         h1 {
             color: #00ffff;
-            font-size: 24px;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0px #ff007f;
+            font-size: 28px;
             margin: 10px 0;
-            letter-spacing: 1px;
-        }
-
-        /* Cartoon Character Accent Box */
-        .simon-milo-vibe {
-            border: 2px dashed #ffff00;
-            background-color: rgba(255, 0, 127, 0.15);
-            padding: 12px;
-            margin: 15px 0;
         }
 
         p {
             color: #ffff00;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
-            text-shadow: 1px 1px 0px #000;
-            line-height: 1.4;
         }
 
-        /* Chunky Interactivity Button */
+        /* Simple Chunky Button */
         .btn {
-            background: linear-gradient(to bottom, #ffff00 0%, #ffcc00 100%);
-            color: #000;
+            background-color: #ffff00;
+            color: #000000;
             border: 3px outset #ffffff;
             padding: 8px 16px;
             font-size: 16px;
-            font-family: "Arial Black", sans-serif;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
-            text-transform: uppercase;
-            box-shadow: 3px 3px 0px #000;
         }
 
         .btn:active {
             border: 3px inset #ffffff;
-            box-shadow: 1px 1px 0px #000;
-            transform: translate(2px, 2px);
         }
 
-        /* Neon Glow Output Message */
+        /* Status Output Text */
         #message {
             margin-top: 15px;
             font-size: 14px;
             color: #00ff00;
-            font-family: "Courier New", monospace;
-            text-shadow: 0 0 6px #00ff00;
-            min-height: 20px;
+            font-family: monospace;
         }
 
-        /* Retro Web Counters and Webring Badges */
+        /* Web Counter Footer */
         .retro-footer {
-            margin-top: 20px;
-            border-top: 2px double #00ffff;
-            padding-top: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+            margin-top: 40px;
+            border-top: 1px solid #ffffff;
+            padding-top: 15px;
         }
 
         .hit-counter {
-            background: #000;
+            background: #000000;
             color: #ff0000;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: monospace;
             font-size: 18px;
-            font-weight: bold;
-            padding: 3px 8px;
-            border: 2px inset #555;
-            letter-spacing: 2px;
-        }
-
-        .badges-row {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-        }
-
-        .ie-badge {
-            width: 88px;
-            height: 31px;
-            background: #000080;
-            color: #fff;
-            font-size: 9px;
-            font-family: Arial, sans-serif;
-            border: 2px outset #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            padding: 2px 6px;
+            display: inline-block;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Logo GIF added here (Relative path for GitHub Pages compatibility) -->
+    <!-- Logo linked correctly via your root folder structure -->
     <img src="logo.gif" alt="Site Logo" class="site-logo">
 
-    <!-- Main Website Portal Frame -->
-    <div class="portal-frame">
+    <!-- Clean Portal Layout -->
+    <div class="main-content">
         
-        <div class="marquee-container">
-            <marquee scrollamount="4" behavior="scroll" direction="left">
-                ⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡
-            </marquee>
-        </div>
+        <marquee scrollamount="4">⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡</marquee>
 
         <h1>💥 PROZZÄK-PAGES 💥</h1>
         
-        <div class="simon-milo-vibe">
-            <p>// STATION ID: CHU_2_PPL //</p>
-            <p>Your Geocities-tier GitHub hosting engine is fully loaded and ready for action. Let's make out!</p>
-        </div>
+        <p>// STATION ID: CHU_2_PPL //</p>
+        <p>Your Geocities-tier GitHub hosting engine is fully loaded and ready for action. Let's make out!</p>
         
-        <!-- Interactive Elements -->
         <button class="btn" id="actionBtn">💥 HIT ME! 💥</button>
         <p id="message">[- Awaiting Interactive Input -]</p>
 
-        <!-- Retro Millennium Footer Components -->
         <div class="retro-footer">
             <div>YOU ARE VISITOR NUMBER:</div>
             <div class="hit-counter" id="countBox">0024791</div>
-            
-            <div class="badges-row">
-                <div class="ie-badge">IE 5.0 OPTIMIZED</div>
-                <div class="ie-badge" style="background: #800000; border-color: #ff007f;">MADE WITH NOTEPAD</div>
-            </div>
         </div>
 
     </div>
 
     <script>
-        // Handle Button Click with Retro Matrix/Neon updates
         document.getElementById('actionBtn').addEventListener('click', function() {
             const time = new Date().toLocaleTimeString();
-            
-            // Trigger dynamic success string
             document.getElementById('message').innerHTML = `★ SUCCESS! ★ LINK ESTABLISHED AT: ${time}`;
             
-            // Fun early-2000s logic: ticking up the hit counter on click
             const currentCount = parseInt(document.getElementById('countBox').textContent, 10);
             document.getElementById('countBox').textContent = String(currentCount + 1).padStart(7, '0');
         });
