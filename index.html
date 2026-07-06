@@ -51,53 +51,64 @@
             z-index: 2; /* Sits on top of the WWW background */
         }
 
-        /* Side Advertisement Layout (Fixed columns on left and right) */
-        .side-ad {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
+        /* Side Advertisement Columns (Scrollable Containers) */
+        .side-ad-column {
+            position: absolute;
+            top: 20px;
             width: 160px;
-            height: 600px;
-            background-color: #000;
-            border: 3px inset #ffffff;
-            z-index: 10;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
         }
 
-        .side-ad img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .ad-left {
+        .ad-left-column {
             left: 20px;
         }
 
-        .ad-right {
+        .ad-right-column {
             right: 20px;
         }
 
-        /* Horizontal Advertisement Banner Styling */
-        .ad-banner-horizontal {
-            width: 468px;
-            height: 60px;
+        /* Individual Side Ad Card Styling */
+        .side-ad-box {
+            width: 100%;
+            height: 600px;
             background-color: #000;
             border: 3px inset #ffffff;
-            margin: 15px auto;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
 
-        .ad-banner-horizontal img {
+        .side-ad-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* Horizontal Advertisement Banner Scaling Improvements */
+        .ad-banner-horizontal {
+            width: 100%;
+            max-width: 728px; /* Standard leaderboard banner sizing */
+            height: auto;
+            min-height: 90px;
+            background-color: #000;
+            border: 3px inset #ffffff;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .ad-banner-horizontal a,
+        .ad-banner-horizontal img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain; /* Scales proportionally inside the container */
         }
 
         /* Simple Centered Content Layout */
@@ -123,15 +134,17 @@
             .main-content {
                 margin-top: 0;
             }
-            .side-ad {
+            .side-ad-column {
                 position: relative;
                 top: 0;
-                transform: none;
-                margin: 20px auto;
-                width: 300px;
-                height: 250px;
+                width: 100%;
+                max-width: 300px;
                 left: 0;
                 right: 0;
+                margin: 20px auto;
+            }
+            .side-ad-box {
+                height: 250px;
             }
         }
 
@@ -195,12 +208,8 @@
         <img src="logo.gif" alt="Site Logo" class="front-logo">
     </div>
 
-    <div class="side-ad ad-left">
-        <a href="#"><img id="leftAdImg" src="" alt="Left Advertisement"></a>
-    </div>
-    <div class="side-ad ad-right">
-        <a href="#"><img id="rightAdImg" src="" alt="Right Advertisement"></a>
-    </div>
+    <div class="side-ad-column ad-left-column" id="leftAdContainer"></div>
+    <div class="side-ad-column ad-right-column" id="rightAdContainer"></div>
 
     <div class="main-content">
         
@@ -230,6 +239,9 @@
     </div>
 
     <script>
+        // --- EDITABLE CONFIGURATION NUMBER ---
+        const SIDE_AD_COUNT = 3; // Change this number to increase or decrease the amount of stacked side ads
+        
         // Array configurations referencing images inside your local advertisements folder
         const horizontalAds = [
             'advertisements/banner1.gif',
@@ -249,12 +261,37 @@
             return adArray[randomIndex];
         }
 
+        // Function to dynamically generate stacked side advertisements
+        function generateSideAds(containerId, count) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear original placeholders
+            
+            for (let i = 0; i < count; i++) {
+                const adBox = document.createElement('div');
+                adBox.className = 'side-ad-box';
+                
+                const adLink = document.createElement('a');
+                adLink.href = '#';
+                
+                const adImg = document.createElement('img');
+                adImg.src = getRandomAd(verticalAds);
+                adImg.alt = 'Side Advertisement';
+                
+                adLink.appendChild(adImg);
+                adBox.appendChild(adLink);
+                container.appendChild(adBox);
+            }
+        }
+
         // Apply randomized sources once the window loads
         window.addEventListener('DOMContentLoaded', () => {
+            // Set scaling top and bottom banners
             document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
             document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
-            document.getElementById('leftAdImg').src = getRandomAd(verticalAds);
-            document.getElementById('rightAdImg').src = getRandomAd(verticalAds);
+            
+            // Build the dynamic columns based on SIDE_AD_COUNT
+            generateSideAds('leftAdContainer', SIDE_AD_COUNT);
+            generateSideAds('rightAdContainer', SIDE_AD_COUNT);
         });
 
         // Hit Button Functionality
