@@ -9,205 +9,83 @@
         body {
             font-family: "Comic Sans MS", "Arial", sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             background-color: #0336ca; /* Flat vibrant blue */
             color: #ffffff;
-            min-height: 100vh;
-            box-sizing: border-box;
-            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 95vh;
         }
 
-        /* FIXED TOP LEFT: Container to group and center the layered top-left graphics */
+        /* Container to group and center the layered top-left graphics */
         .logo-stack-container {
-            position: fixed;
+            position: absolute;
             top: 15px;
             left: 15px;
-            width: 620px; 
+            width: 620px; /* Big enough to clear the oversized background GIF */
             height: auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10; /* Ensures it stays on top of background layers */
         }
 
-        /* New WWW Backing GIF */
+        /* New WWW Backing GIF (Larger, centered behind the main logo) */
         .back-gif {
             position: absolute;
             width: 100%;
-            max-width: 620px; 
+            max-width: 620px; /* Bigger than the front logo */
             height: auto;
             border: none;
-            z-index: 1; 
+            z-index: 1; /* Sits behind the logo */
         }
 
-        /* Front Logo GIF */
+        /* Front Logo GIF (520px wide, sits on top) */
         .front-logo {
             position: relative;
             width: 100%;
             max-width: 520px; 
             height: auto;
             border: none;
-            z-index: 2; 
+            z-index: 2; /* Sits on top of the WWW background */
         }
 
-        /* --- ADVERTISEMENT BANNER LAYOUT --- */
+        /* Retro Advertisement Banner Styling */
         .ad-banner {
-            border: 2px outset #ffffff;
-            background-color: #000000;
+            width: 468px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: 3px inset #ffffff;
+            color: #000000;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            margin: 15px auto;
+            text-transform: uppercase;
+            font-size: 14px;
+            box-shadow: 5px 5px 0px #000000;
         }
-        .ad-banner img {
+
+        .ad-banner a {
+            color: #000000;
+            text-decoration: none;
             width: 100%;
             height: 100%;
-            object-fit: fill;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Top Horizontal Banner - Centered below the logo clearance height */
-        #ad-top {
-            margin-top: 480px; /* Forces it below the 480px height of the fixed logo */
-            width: 468px;
-            height: 60px;
-            z-index: 5;
-        }
-
-        /* Left Side Banner Tower - Absolute to viewport below logo */
-        #ad-left {
-            position: absolute;
-            top: 560px;
-            left: 15px;
-            width: 120px;
-            height: 600px;
-        }
-
-        /* Right Side Banner Tower - Absolute to viewport */
-        #ad-right {
-            position: absolute;
-            top: 560px;
-            right: 15px;
-            width: 120px;
-            height: 600px;
-        }
-
-        /* Bottom Banner - Anchored at the absolute bottom */
-        #ad-bottom {
-            margin: 40px auto 20px auto;
-            width: 100%;
-            max-width: 728px; /* Classic leaderboard width */
-            height: 90px;
-        }
-
-        /* --- EARLY 2000s INTERACTIVE CONSOLE LAYOUT --- */
+        /* Simple Centered Content Layout */
         .main-content {
             text-align: center;
-            max-width: 550px;
+            max-width: 500px;
             width: 100%;
-            margin: 20px auto; /* Clean spacing below the top ad banner */
-            background-color: #000080; /* Dark Navy classic panel background */
-            border: 4px outset #ffffff;
-            padding: 15px;
-            box-shadow: 5px 5px 0px #000000;
-            box-sizing: border-box;
-            flex-grow: 1;
+            margin-top: 480px; /* Pushes content down so the giant top-left logos don't overlap it */
         }
 
-        /* Title Area Bar */
-        .window-title {
-            background: linear-gradient(90deg, #ff00ff, #00ffff);
-            color: #000000;
-            font-weight: bold;
-            padding: 4px;
-            margin: -15px -15px 15px -15px;
-            border-bottom: 2px solid #ffffff;
-            text-shadow: 1px 1px 0px #ffffff;
-            font-size: 14px;
-            text-align: left;
-        }
-
-        h1 {
-            color: #00ffff;
-            font-size: 26px;
-            margin: 10px 0;
-            text-shadow: 2px 2px #000000;
-        }
-
-        p {
-            color: #ffff00;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        /* Classic 2000s Control Panel Container */
-        .control-panel {
-            background-color: #102040;
-            border: 3px inset #ffffff;
-            padding: 20px;
-            margin: 15px 0;
-        }
-
-        /* Early 2000s Chunky Windows-Style OS Button */
-        .btn {
-            background-color: #dfdfdf;
-            color: #000000;
-            border-top: 3px solid #ffffff;
-            border-left: 3px solid #ffffff;
-            border-right: 3px solid #777777;
-            border-bottom: 3px solid #777777;
-            padding: 10px 24px;
-            font-size: 16px;
-            font-family: "Arial", sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 2px 2px 0px #000000;
-        }
-
-        .btn:active {
-            border-top: 3px solid #777777;
-            border-left: 3px solid #777777;
-            border-right: 3px solid #ffffff;
-            border-bottom: 3px solid #ffffff;
-            box-shadow: none;
-            transform: translate(1px, 1px);
-        }
-
-        /* Status Output Text Box */
-        #message {
-            margin-top: 15px;
-            font-size: 13px;
-            color: #00ff00;
-            background-color: #000000;
-            border: 2px inset #ffffff;
-            padding: 8px;
-            font-family: monospace;
-            min-height: 18px;
-        }
-
-        /* Web Counter Footer */
-        .retro-footer {
-            margin-top: 20px;
-            border-top: 2px dashed #ffff00;
-            padding-top: 15px;
-        }
-
-        .hit-counter {
-            background: #000000;
-            color: #ff0000;
-            font-family: monospace;
-            font-size: 20px;
-            font-weight: bold;
-            padding: 4px 8px;
-            display: inline-block;
-            margin-top: 5px;
-            border: 2px inset #777777;
-            letter-spacing: 2px;
-        }
-
-        /* Responsive shift for narrower layouts */
+        /* Responsive shift for narrower screens/mobile views */
         @media (max-width: 1200px) {
             .logo-stack-container {
                 position: relative;
@@ -215,14 +93,67 @@
                 left: 0;
                 width: 100%;
                 max-width: 620px;
-                margin: 0 auto;
+                margin-bottom: 20px;
             }
-            #ad-top {
-                margin-top: 20px;
+            .main-content {
+                margin-top: 0;
             }
-            #ad-left, #ad-right {
-                display: none; 
+            .ad-banner {
+                width: 100%;
+                max-width: 468px;
             }
+        }
+
+        h1 {
+            color: #00ffff;
+            font-size: 28px;
+            margin: 10px 0;
+        }
+
+        p {
+            color: #ffff00;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Simple Chunky Button */
+        .btn {
+            background-color: #ffff00;
+            color: #000000;
+            border: 3px outset #ffffff;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            border: 3px inset #ffffff;
+        }
+
+        /* Status Output Text */
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #00ff00;
+            font-family: monospace;
+        }
+
+        /* Web Counter Footer */
+        .retro-footer {
+            margin-top: 40px;
+            border-top: 1px solid #ffffff;
+            padding-top: 15px;
+        }
+
+        .hit-counter {
+            background: #000000;
+            color: #ff0000;
+            font-family: monospace;
+            font-size: 18px;
+            padding: 2px 6px;
+            display: inline-block;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -233,63 +164,34 @@
         <img src="logo.gif" alt="Site Logo" class="front-logo">
     </div>
 
-    <div class="ad-banner" id="ad-top"></div>
-
-    <div class="ad-banner" id="ad-left"></div>
-    <div class="ad-banner" id="ad-right"></div>
-
     <div class="main-content">
-        <div class="window-title">★ WEB_PORTAL_V2.04.EXE</div>
         
-        <marquee scrollamount="4" bgcolor="#000000" style="color: #ff00ff; border: 1px solid #ffffff; padding: 2px;">⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡</marquee>
+        <marquee scrollamount="4">⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡</marquee>
 
-        <h1>💥 PROZZÄK-PAGES 💥</h1>
+        <div class="ad-banner">
+            <a href="#">🔥 FREE DOWNLOADS! CLICK HERE NOW! 🔥</a>
+        </div>
+
+        <h1>💥 title 💥</h1>
         
-        <p>// STATION ID: CHU_2_PPL //</p>
-        <p>Your Geocities-tier GitHub hosting engine is fully loaded and ready for action. Let's make out!</p>
+        <p>// ergergregrgerg //</p>
+        <p>wergergregergergerg</p>
         
-        <div class="control-panel">
-            <button class="btn" id="actionBtn">💥 HIT ME! 💥</button>
-            <div id="message">[- Awaiting Interactive Input -]</div>
+        <button class="btn" id="actionBtn">💥 HIT ME! 💥</button>
+        <p id="message">[- Awaiting Interactive Input -]</p>
+
+        <div class="ad-banner" style="background: linear-gradient(45deg, #ffcc00, #ff0000);">
+            <a href="#">⚠️ WARNING: YOUR PC IS NOT OPTIMIZED! CLICK TO FIX! ⚠️</a>
         </div>
 
         <div class="retro-footer">
             <div>YOU ARE VISITOR NUMBER:</div>
             <div class="hit-counter" id="countBox">0024791</div>
         </div>
+
     </div>
 
-    <div class="ad-banner" id="ad-bottom"></div>
-
     <script>
-        // --- ADVERTISEMENT RANDOMIZER ENGINE ---
-        const adImages = [
-            "ad1.gif",
-            "banner_cool.png",
-            "cyber_ad.jpg",
-            "vintage_promo.gif"
-        ];
-
-        function getRandomAd() {
-            if (adImages.length === 0) return "";
-            const randomIndex = Math.floor(Math.random() * adImages.length);
-            return `Advertisements/${adImages[randomIndex]}`;
-        }
-
-        function loadRandomAds() {
-            const topAd = document.getElementById('ad-top');
-            const leftAd = document.getElementById('ad-left');
-            const rightAd = document.getElementById('ad-right');
-            const bottomAd = document.getElementById('ad-bottom');
-
-            if(topAd) topAd.innerHTML = `<img src="${getRandomAd()}" alt="Advertisement">`;
-            if(leftAd) leftAd.innerHTML = `<img src="${getRandomAd()}" alt="Advertisement">`;
-            if(rightAd) rightAd.innerHTML = `<img src="${getRandomAd()}" alt="Advertisement">`;
-            if(bottomAd) bottomAd.innerHTML = `<img src="${getRandomAd()}" alt="Advertisement">`;
-        }
-
-        window.addEventListener('DOMContentLoaded', loadRandomAds);
-
         document.getElementById('actionBtn').addEventListener('click', function() {
             const time = new Date().toLocaleTimeString();
             document.getElementById('message').innerHTML = `★ SUCCESS! ★ LINK ESTABLISHED AT: ${time}`;
