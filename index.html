@@ -82,13 +82,33 @@
             overflow: hidden;
         }
 
-        /* STRETCH FIX: Forces vertical images to fill out 100% width and height cleanly */
+        /* STRETCH FIX */
         .side-ad-box a,
         .side-ad-box img {
             width: 100%;
             height: 100%;
             display: block;
             object-fit: fill;
+        }
+
+        /* Custom Modern Smooth Marquee Container */
+        .marquee-container {
+            width: 100%;
+            max-width: 960px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            background: transparent;
+            padding: 5px 0;
+            box-sizing: border-box;
+            height: 35px;
+        }
+
+        .marquee-track {
+            display: inline-block;
+            position: absolute;
+            white-space: nowrap;
+            will-change: transform;
         }
 
         /* Top Advertisement Specific Wrapper */
@@ -249,7 +269,9 @@
 
     <div class="main-content">
         
-        <marquee scrollamount="4" id="scrollingText">⚡⚡⚡ LOADING DYNAMIC PORTAL TEXT... ⚡⚡⚡</marquee>
+        <div class="marquee-container" id="marqueeWrapper">
+            <div class="marquee-track" id="scrollingTrack"></div>
+        </div>
 
         <div class="top-ad-wrapper">
             <div class="ad-banner-horizontal">
@@ -285,8 +307,14 @@
         const GITHUB_REPO = "nevergetoveryou";       
         const AD_FOLDER_PATH = "Advertisements";
 
+        // --- MARQUEE SPEED CONFIGURATION ---
+        // Lower numbers make it slide FASTER. Higher numbers make it SLOWER. (Pixels covered per frame calculation)
+        const MARQUEE_SPEED = 2.5; 
+        
+        // Safety gap space (in pixels) between sentences so they don't crash into each other
+        const MARQUEE_GAP = 120; 
+
         // --- EDITABLE SENTENCES TABLE ---
-        // Change these or append new strings here to instantly add more random marquee phrases!
         const randomSentences = [
             "Welcome to G.T.A. kid.. If you have dreams... consider them gone.",
             "Hercules Hercules!",
@@ -295,7 +323,6 @@
             "Water Pacific creating is found new Pulpetalios! Nice What Creatures?.."
         ];
 
-        // Fallbacks in case the fetch fails or folder is empty
         let horizontalAds = [];
         let verticalAds = [];
 
@@ -303,6 +330,69 @@
             if (arr.length === 0) return '';
             const randomIndex = Math.floor(Math.random() * arr.length);
             return arr[randomIndex];
+        }
+
+        // Custom Queue-Based Marquee Engine
+        function initSeamlessMarquee() {
+            const container = document.getElementById('marqueeWrapper');
+            const track = document.getElementById('scrollingTrack');
+            
+            let containerWidth = container.offsetWidth;
+            let currentX = containerWidth; 
+            let activeSpans = [];
+
+            // Spawns a fresh randomized item into our scrolling array
+            function spawnSentenceItem() {
+                const span = document.createElement('span');
+                span.style.paddingRight = `${MARQUEE_GAP}px`;
+                span.style.display = 'inline-block';
+                span.textContent = getRandomElement(randomSentences);
+                track.appendChild(span);
+                
+                return {
+                    element: span,
+                    width: 0, // Calculated post-render
+                    computed: false
+                };
+            }
+
+            // Initialization seed push
+            activeSpans.push(spawnSentenceItem());
+
+            function animate() {
+                currentX -= MARQUEE_SPEED;
+                
+                let totalTrackWidth = 0;
+                activeSpans.forEach(item => {
+                    if (!item.computed) {
+                        item.width = item.element.offsetWidth;
+                        if (item.width > 0) item.computed = true;
+                    }
+                    totalTrackWidth += item.width;
+                });
+
+                // Check tail end: if the rolling items clear up enough background screen width, load the next random sentence string
+                if (currentX + totalTrackWidth < containerWidth + 50) {
+                    activeSpans.push(spawnSentenceItem());
+                }
+
+                // Cleanup cycle: garbage collect text elements that fully passed left side offscreen coordinates
+                if (activeSpans.length > 0 && currentX + activeSpans[0].width < 0) {
+                    currentX += activeSpans[0].width;
+                    activeSpans[0].element.remove();
+                    activeSpans.shift();
+                }
+
+                track.style.transform = `translateX(${currentX}px)`;
+                requestAnimationFrame(animate);
+            }
+
+            // Window resize handler adjustment check
+            window.addEventListener('resize', () => {
+                containerWidth = container.offsetWidth;
+            });
+
+            requestAnimationFrame(animate);
         }
 
         // Generates structural vertical elements dynamically
@@ -338,14 +428,10 @@
                 const files = await response.json();
                 
                 files.forEach(file => {
-                    // Check if file is an image/gif
                     if (file.type === 'file' && /\.(gif|png|jpe?g)$/i.test(file.name)) {
                         const localPath = `${AD_FOLDER_PATH}/${file.name}`;
-                        
-                        // Extract base name without extension to evaluate ending patterns
                         const nameWithoutExt = file.name.substring(0, file.name.lastIndexOf('.'));
                         
-                        // Match ending characters: checks if it ends with '_h' or '_v'
                         if (nameWithoutExt.toLowerCase().endsWith('_h')) {
                             horizontalAds.push(localPath);
                         } else if (nameWithoutExt.toLowerCase().endsWith('_v')) {
@@ -355,9 +441,8 @@
                 });
 
             } catch (error) {
-                console.warn("Could not read GitHub repository contents directly. Checking configs...", error);
+                console.warn("Could not read GitHub repository contents directly.", error);
             } finally {
-                // Apply final sorted random paths to layout elements
                 if (horizontalAds.length > 0) {
                     document.getElementById('topAdImg').src = getRandomElement(horizontalAds);
                     document.getElementById('bottomAdImg').src = getRandomElement(horizontalAds);
@@ -372,9 +457,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Pick and apply a completely randomized marquee sentence instantly on load
-            document.getElementById('scrollingText').textContent = getRandomElement(randomSentences);
-
+            initSeamlessMarquee();
             generateSideAds('leftAdContainer', SIDE_AD_COUNT);
             generateSideAds('rightAdContainer', SIDE_AD_COUNT);
             fetchAdsFromGitHub();
