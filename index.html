@@ -88,9 +88,9 @@
             object-fit: cover;
         }
 
-        /* Top Advertisement Specific Wrapper to Ensure Exact Matching Sizing */
+        /* Top Advertisement Specific Wrapper - Corrected for block flow centering */
         .top-ad-wrapper {
-            width: 100vw;
+            width: 100%;
             display: flex;
             justify-content: center;
             margin: 20px 0;
@@ -124,19 +124,22 @@
             object-fit: fill; /* Forces the image assets to scale exactly to the containers dimensions uniformly */
         }
 
-        /* Centered Content Layout */
+        /* Centered Content Layout - Sized wider to naturally frame the 960px top ad banner */
         .main-content {
             text-align: center;
-            max-width: 500px;
+            max-width: 960px;
             width: 100%;
             margin-top: 200px; 
             position: relative;
             z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Bottom Ad Container outside the content container */
         .bottom-ad-container {
-            width: 100vw;
+            width: 100%;
             display: flex;
             justify-content: center;
             margin-top: 30px;
@@ -216,6 +219,8 @@
             margin-top: 25px;
             border-top: 1px solid #ffffff;
             padding-top: 15px;
+            width: 100%;
+            max-width: 500px;
         }
 
         .hit-counter {
