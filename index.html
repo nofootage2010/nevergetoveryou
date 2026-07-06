@@ -51,10 +51,10 @@
             z-index: 2; /* Sits on top of the WWW background */
         }
 
-        /* Side Advertisement Columns - Moved up to line up with the main content */
+        /* Side Advertisement Columns */
         .side-ad-column {
             position: absolute;
-            top: 220px; /* Shifted up from 480px to sit neatly below the top left logo area */
+            top: 220px; 
             width: 160px;
             display: flex;
             flex-direction: column;
@@ -88,42 +88,55 @@
             object-fit: cover;
         }
 
-        /* Horizontal Advertisement Banner Styling - Made Wider */
+        /* Top Advertisement Specific Wrapper to Ensure Exact Matching Sizing */
+        .top-ad-wrapper {
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        /* Horizontal Advertisement Banner Styling - Uniform Width across Top & Bottom */
         .ad-banner-horizontal {
             width: 100%;
-            max-width: 960px; /* Increased width from 728px for a wider look */
-            height: auto;
-            min-height: 90px;
+            max-width: 960px; 
+            height: 90px; /* Locked height to match standard leaderboard aspect ratios */
             background-color: #000;
             border: 3px inset #ffffff;
-            margin: 20px auto;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
 
-        .ad-banner-horizontal a,
+        .ad-banner-horizontal a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .ad-banner-horizontal img {
             width: 100%;
             height: 100%;
             display: block;
-            object-fit: contain; /* Scales proportionally inside the container */
+            object-fit: fill; /* Forces the image assets to scale exactly to the containers dimensions uniformly */
         }
 
-        /* Centered Content Layout - Shifted up to sit closer to the logo line */
+        /* Centered Content Layout */
         .main-content {
             text-align: center;
             max-width: 500px;
             width: 100%;
-            margin-top: 200px; /* Shifted up from 480px to remove the empty middle void */
+            margin-top: 200px; 
             position: relative;
             z-index: 5;
         }
 
-        /* Bottom Ad Container outside the content container to guarantee it is below everything */
+        /* Bottom Ad Container outside the content container */
         .bottom-ad-container {
-            width: 100%;
+            width: 100vw;
             display: flex;
             justify-content: center;
             margin-top: 30px;
@@ -155,6 +168,9 @@
             }
             .side-ad-box {
                 height: 250px;
+            }
+            .ad-banner-horizontal {
+                max-width: 90%;
             }
         }
 
@@ -227,14 +243,16 @@
         
         <marquee scrollamount="4">⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡</marquee>
 
-        <div class="ad-banner-horizontal">
-            <a href="#"><img id="topAdImg" src="" alt="Top Advertisement"></a>
+        <div class="top-ad-wrapper">
+            <div class="ad-banner-horizontal">
+                <a href="#"><img id="topAdImg" src="" alt="Top Advertisement"></a>
+            </div>
         </div>
 
         <h1>💥 title 💥</h1>
         
         <p>// ergergregrgerg //</p>
-        <p>wergergregergergerg</p>
+        <p>wergergregrgergerg</p>
         
         <button class="btn" id="actionBtn">💥 HIT ME! 💥</button>
         <p id="message">[- Awaiting Interactive Input -]</p>
