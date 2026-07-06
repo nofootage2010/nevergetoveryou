@@ -3,85 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Test Site</title>
+    <title>⚡ :: WELCOME TO MY PROZZAK-STYLE PAGES TEST :: ⚡</title>
     <style>
-        /* Base styles */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        /* Retro Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ff007f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00ffff;
+            border: 2px solid #000;
         }
 
-        /* Container box */
-        .card {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        /* Y2K Psychedelic Wavy Background (Prozzäk Album Art Style) */
+        body {
+            font-family: "Comic Sans MS", "Arial Black", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #0336ca;
+            background-image: repeating-radial-gradient(circle at center, #001254, #0336ca 40px, #00ffff 80px, #ff007f 120px, #001254 160px);
+            background-size: 300% 300%;
+            animation: waveMotion 15s ease infinite;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 95vh;
+            cursor: crosshair;
+        }
+
+        @keyframes waveMotion {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Early 2000s Web Portal Container */
+        .portal-frame {
+            background-color: #111;
+            border: 6px outset #ff007f;
+            padding: 25px;
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
+            box-shadow: 10px 10px 0px #000000;
+        }
+
+        /* Neon Marquee Header styling */
+        .marquee-container {
+            background: #000;
+            border: 2px inset #00ffff;
+            padding: 5px;
+            margin-bottom: 20px;
         }
 
         h1 {
-            color: #24292e;
-            margin-bottom: 10px;
+            color: #00ffff;
+            font-size: 26px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px #ff007f;
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+
+        /* Cartoon Character Accent Box */
+        .simon-milo-vibe {
+            border: 3px dashed #ffff00;
+            background-color: rgba(255, 0, 127, 0.2);
+            padding: 15px;
+            margin: 15px 0;
         }
 
         p {
-            color: #586069;
+            color: #ffff00;
             font-size: 16px;
-            line-height: 1.5;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px #000;
+            line-height: 1.4;
         }
 
-        /* Interactive Button */
+        /* Chunky Interactivity Button */
         .btn {
-            background-color: #2ea44f;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
+            background: linear-gradient(to bottom, #ffff00 0%, #ffcc00 100%);
+            color: #000;
+            border: 4px outset #ffffff;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-family: "Arial Black", sans-serif;
             font-weight: bold;
-            border-radius: 6px;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #2c974b;
-        }
-
-        /* Timestamp message */
-        #message {
             margin-top: 15px;
-            font-weight: bold;
-            color: #0366d6;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        .btn:active {
+            border: 4px inset #ffffff;
+            box-shadow: 1px 1px 0px #000;
+            transform: translate(3px, 3px);
+        }
+
+        /* Neon Glow Output Message */
+        #message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #00ff00;
+            font-family: "Courier New", monospace;
+            text-shadow: 0 0 8px #00ff00;
             min-height: 24px;
+        }
+
+        /* Retro Web Counters and Webring Badges */
+        .retro-footer {
+            margin-top: 25px;
+            border-top: 2px double #00ffff;
+            padding-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hit-counter {
+            background: #000;
+            color: #ff0000;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border: 2px inset #555;
+            letter-spacing: 3px;
+        }
+
+        .badges-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .ie-badge {
+            width: 88px;
+            height: 31px;
+            background: #000080;
+            color: #fff;
+            font-size: 9px;
+            font-family: Arial, sans-serif;
+            border: 2px outset #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>🚀 GitHub Pages Test</h1>
-        <p>Your website hosting is working successfully! Click the button below to test interactivity.</p>
+    <!-- Main Website Portal Frame -->
+    <div class="portal-frame">
         
-        <button class="btn" id="actionBtn">Click Me</button>
-        <p id="message"></p>
+        <div class="marquee-container">
+            <marquee scrollamount="5" behavior="scroll" direction="left">
+                ⚡⚡⚡ WELCOME TO THE ULTIMATE INTERACTIVE PORTAL! HOT SHOW IN PROGRESS! ⚡⚡⚡
+            </marquee>
+        </div>
+
+        <h1>💥 PROZZÄK-PAGES 💥</h1>
+        
+        <div class="simon-milo-vibe">
+            <p>// STATION ID: CHU_2_PPL //</p>
+            <p>Your Geocities-tier GitHub hosting engine is fully loaded and ready for action. Let's make out!</p>
+        </div>
+        
+        <!-- Interactive Elements -->
+        <button class="btn" id="actionBtn">💥 HIT ME! 💥</button>
+        <p id="message">[- Awaiting Interactive Input -]</p>
+
+        <!-- Retro Millennium Footer Components -->
+        <div class="retro-footer">
+            <div>YOU ARE VISITOR NUMBER:</div>
+            <div class="hit-counter" id="countBox">0024791</div>
+            
+            <div class="badges-row">
+                <div class="ie-badge">IE 5.0 OPTIMIZED</div>
+                <div class="ie-badge" style="background: #800000; border-color: #ff007f;">MADE WITH NOTEPAD</div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Simple interactive script
+        // Handle Button Click with Retro Matrix/Neon updates
         document.getElementById('actionBtn').addEventListener('click', function() {
             const time = new Date().toLocaleTimeString();
-            document.getElementById('message').textContent = `Success! Last clicked at ${time}`;
+            
+            // Trigger dynamic success string
+            document.getElementById('message').innerHTML = `★ SUCCESS! ★ LINK ESTABLISHED AT: ${time}`;
+            
+            // Fun early-2000s logic: ticking up the hit counter on click
+            const currentCount = parseInt(document.getElementById('countBox').textContent, 10);
+            document.getElementById('countBox').textContent = String(currentCount + 1).padStart(7, '0');
         });
     </script>
 
