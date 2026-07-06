@@ -24,31 +24,31 @@
             position: absolute;
             top: 15px;
             left: 15px;
-            width: 620px; /* Big enough to clear the oversized background GIF */
+            width: 620px; 
             height: auto;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* New WWW Backing GIF (Larger, centered behind the main logo) */
+        /* WWW Backing GIF */
         .back-gif {
             position: absolute;
             width: 100%;
-            max-width: 620px; /* Bigger than the front logo */
+            max-width: 620px; 
             height: auto;
             border: none;
-            z-index: 1; /* Sits behind the logo */
+            z-index: 1; 
         }
 
-        /* Front Logo GIF (520px wide, sits on top) */
+        /* Front Logo GIF */
         .front-logo {
             position: relative;
             width: 100%;
             max-width: 520px; 
             height: auto;
             border: none;
-            z-index: 2; /* Sits on top of the WWW background */
+            z-index: 2; 
         }
 
         /* Side Advertisement Columns */
@@ -82,10 +82,12 @@
             overflow: hidden;
         }
 
-        /* Force image to stretch completely to the width and height of the box */
+        /* FIX: Force vertical images to stretch completely to fill the box dimensions */
+        .side-ad-box a,
         .side-ad-box img {
             width: 100%;
             height: 100%;
+            display: block;
             object-fit: fill;
         }
 
@@ -101,7 +103,7 @@
         .ad-banner-horizontal {
             width: 100%;
             max-width: 960px; 
-            height: 90px; /* Locked height to match standard leaderboard aspect ratios */
+            height: 90px; 
             background-color: #000;
             border: 3px inset #ffffff;
             display: flex;
@@ -118,7 +120,6 @@
             justify-content: center;
         }
 
-        /* Force image to stretch completely to the width and height of the banner */
         .ad-banner-horizontal img {
             width: 100%;
             height: 100%;
@@ -139,7 +140,7 @@
             align-items: center;
         }
 
-        /* Bottom Ad Container outside the content container */
+        /* Bottom Ad Container */
         .bottom-ad-container {
             width: 100%;
             display: flex;
@@ -280,19 +281,21 @@
     <script>
         // --- EDITABLE CONFIGURATIONS ---
         const SIDE_AD_COUNT = 3; 
-        const GITHUB_OWNER = "nofootage2010"; // Replace with your GitHub username
-        const GITHUB_REPO = "nevergetoveryou";       // Replace with your repository name
-        const AD_FOLDER_PATH = "Advertisements";    // The name of your folder containing ads
+        const GITHUB_OWNER = "nofootage2010"; // <-- Change to your GitHub Username
+        const GITHUB_REPO = "nevergetoveryou";       // <-- Change to your Repository Name
+        const AD_FOLDER_PATH = "Advertisements";
 
-        // Fallback placeholders
-        let horizontalAds = ['advertisements/banner1.gif'];
-        let verticalAds = ['advertisements/side1.gif'];
+        // Fallbacks in case the fetch fails or folder is empty
+        let horizontalAds = [];
+        let verticalAds = [];
 
         function getRandomAd(adArray) {
+            if (adArray.length === 0) return '';
             const randomIndex = Math.floor(Math.random() * adArray.length);
             return adArray[randomIndex];
         }
 
+        // Generates placeholder slots that will be populated once files are sorted
         function generateSideAds(containerId, count) {
             const container = document.getElementById(containerId);
             container.innerHTML = ''; 
@@ -305,7 +308,6 @@
                 adLink.href = '#';
                 
                 const adImg = document.createElement('img');
-                adImg.src = getRandomAd(verticalAds);
                 adImg.alt = 'Side Advertisement';
                 adImg.className = 'dynamic-side-img'; 
                 
@@ -315,53 +317,47 @@
             }
         }
 
+        // Fetches from GitHub repository and filters based on filename ending rules
         async function fetchAdsFromGitHub() {
             const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${AD_FOLDER_PATH}`;
             
             try {
                 const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error('Repository data unavailable');
+                if (!response.ok) throw new Error('Repository folder missing or private');
                 
                 const files = await response.json();
                 
-                const fetchedBanners = [];
-                const fetchedSides = [];
-                
                 files.forEach(file => {
+                    // Check if file is an image/gif
                     if (file.type === 'file' && /\.(gif|png|jpe?g)$/i.test(file.name)) {
                         const localPath = `${AD_FOLDER_PATH}/${file.name}`;
                         
-                        // Sort into pools based on common naming syntax, fallback to using all images for both pools if designations are ambiguous
-                        if (file.name.toLowerCase().includes('banner') || file.name.toLowerCase().includes('horizontal')) {
-                            fetchedBanners.push(localPath);
-                        } else {
-                            fetchedSides.push(localPath);
+                        // Extract base name without extension to evaluate ending patterns
+                        const nameWithoutExt = file.name.substring(0, file.name.lastIndexOf('.'));
+                        
+                        // Match ending characters: checks if it ends with '_h' or '_v'
+                        if (nameWithoutExt.toLowerCase().endsWith('_h')) {
+                            horizontalAds.push(localPath);
+                        } else if (nameWithoutExt.toLowerCase().endsWith('_v')) {
+                            verticalAds.push(localPath);
                         }
                     }
                 });
 
-                // Mix the images if separate tags aren't explicitly clear in filenames
-                if (fetchedBanners.length > 0) {
-                    horizontalAds = fetchedBanners;
-                } else if (files.length > 0) {
-                    horizontalAds = files.filter(f => /\.(gif|png|jpe?g)$/i.test(f.name)).map(f => `${AD_FOLDER_PATH}/${f.name}`);
+            } catch (error) {
+                console.warn("Could not read GitHub repository contents directly. Checking configs...", error);
+            } finally {
+                // Apply final sorted random paths to layout elements
+                if (horizontalAds.length > 0) {
+                    document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
+                    document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
                 }
                 
-                if (fetchedSides.length > 0) {
-                    verticalAds = fetchedSides;
-                } else if (files.length > 0) {
-                    verticalAds = files.filter(f => /\.(gif|png|jpe?g)$/i.test(f.name)).map(f => `${AD_FOLDER_PATH}/${f.name}`);
+                if (verticalAds.length > 0) {
+                    document.querySelectorAll('.dynamic-side-img').forEach(img => {
+                        img.src = getRandomAd(verticalAds);
+                    });
                 }
-
-            } catch (error) {
-                console.warn("Using fallback images.", error);
-            } finally {
-                document.getElementById('topAdImg').src = getRandomAd(horizontalAds);
-                document.getElementById('bottomAdImg').src = getRandomAd(horizontalAds);
-
-                document.querySelectorAll('.dynamic-side-img').forEach(img => {
-                    img.src = getRandomAd(verticalAds);
-                });
             }
         }
 
