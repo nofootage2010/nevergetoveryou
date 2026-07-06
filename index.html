@@ -111,7 +111,7 @@
             position: relative;
         }
 
-        /* FIX: Flex box properties applied here cleanly prevent jumping during deletion */
+        /* FIX: Opacity starts at 0 to prevent initial position left-side flashes */
         .marquee-item {
             position: absolute;
             left: 0;
@@ -121,6 +121,7 @@
             align-items: center;
             white-space: nowrap;
             will-change: transform;
+            opacity: 0; 
         }
 
         /* Top Advertisement Specific Wrapper */
@@ -380,7 +381,11 @@
                     // Measure element width dynamically once it loads into the DOM
                     if (!item.computed) {
                         item.width = item.element.offsetWidth;
-                        if (item.width > 0) item.computed = true;
+                        if (item.width > 0) {
+                            item.computed = true;
+                            // FIX: Only make element visible once its width is computed and transform coordinates apply
+                            item.element.style.opacity = "1";
+                        }
                     }
 
                     // Apply the movement update instantly via CSS transform
