@@ -101,7 +101,7 @@
             background: transparent;
             padding: 5px 0;
             box-sizing: border-box;
-            height: 35px;
+            height: 45px;
         }
 
         /* The track now holds items via relative/absolute offsets natively */
@@ -111,13 +111,16 @@
             position: relative;
         }
 
+        /* FIX: Flex box properties applied here cleanly prevent jumping during deletion */
         .marquee-item {
             position: absolute;
             left: 0;
             top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
             white-space: nowrap;
             will-change: transform;
-            display: inline-block;
         }
 
         /* Top Advertisement Specific Wrapper */
@@ -317,7 +320,6 @@
         const AD_FOLDER_PATH = "Advertisements";
 
         // --- MARQUEE SPEED CONFIGURATION ---
-        // Change this number to alter text speed directly! Higher = faster, lower = slower.
         const MARQUEE_SPEED = 2.5; 
         
         // Safety gap space (in pixels) between sentences so they don't crash into each other
@@ -384,7 +386,7 @@
                     // Apply the movement update instantly via CSS transform
                     item.element.style.transform = `translateX(${item.x}px)`;
 
-                    // CLEANUP FIX: Delete ONLY when the tail end goes entirely off the screen (< 0)
+                    // CLEANUP: Delete ONLY when the tail end goes entirely off the screen (< 0)
                     if (item.computed && (item.x + item.width) < 0) {
                         item.element.remove();
                         activeSpans.splice(i, 1);
@@ -407,7 +409,6 @@
                         }
                     }
                 } else {
-                    // Fallback to reload if the array empties unexpectedly
                     activeSpans.push(spawnSentenceItem(containerWidth));
                 }
 
