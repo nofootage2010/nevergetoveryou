@@ -18,13 +18,36 @@
             min-height: 95vh;
         }
 
-        /* Large Centered Logo Header */
-        .site-logo {
+        /* Container to group and center the layered top-left graphics */
+        .logo-stack-container {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 620px; /* Big enough to clear the oversized background GIF */
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* New WWW Backing GIF (Larger, centered behind the main logo) */
+        .back-gif {
+            position: absolute;
             width: 100%;
-            max-width: 520px; /* Logo set to 520px */
+            max-width: 620px; /* Bigger than the front logo */
             height: auto;
             border: none;
-            margin-bottom: 20px;
+            z-index: 1; /* Sits behind the logo */
+        }
+
+        /* Front Logo GIF (520px wide, sits on top) */
+        .front-logo {
+            position: relative;
+            width: 100%;
+            max-width: 520px; 
+            height: auto;
+            border: none;
+            z-index: 2; /* Sits on top of the WWW background */
         }
 
         /* Simple Centered Content Layout */
@@ -32,6 +55,22 @@
             text-align: center;
             max-width: 500px;
             width: 100%;
+            margin-top: 480px; /* Pushes content down so the giant top-left logos don't overlap it */
+        }
+
+        /* Responsive shift for narrower screens/mobile views */
+        @media (max-width: 1200px) {
+            .logo-stack-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100%;
+                max-width: 620px;
+                margin-bottom: 20px;
+            }
+            .main-content {
+                margin-top: 0;
+            }
         }
 
         h1 {
@@ -89,8 +128,13 @@
 </head>
 <body>
 
-    <!-- Large Centered Header Logo -->
-    <img src="logo.gif" alt="Site Logo" class="site-logo">
+    <!-- Layered Top-Left Graphics Group -->
+    <div class="logo-stack-container">
+        <!-- New backing asset (assumed file extension based on name format) -->
+        <img src="WWW.gif" alt="WWW Background Graphic" class="back-gif">
+        <!-- Original main asset -->
+        <img src="logo.gif" alt="Site Logo" class="front-logo">
+    </div>
 
     <!-- Clean Portal Layout -->
     <div class="main-content">
