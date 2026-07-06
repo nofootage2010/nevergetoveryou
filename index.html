@@ -88,10 +88,10 @@
             object-fit: cover;
         }
 
-        /* Horizontal Advertisement Banner Styling */
+        /* Horizontal Advertisement Banner Styling - Made Wider */
         .ad-banner-horizontal {
             width: 100%;
-            max-width: 728px; /* Standard leaderboard banner sizing */
+            max-width: 960px; /* Increased width from 728px for a wider look */
             height: auto;
             min-height: 90px;
             background-color: #000;
@@ -118,6 +118,16 @@
             width: 100%;
             margin-top: 200px; /* Shifted up from 480px to remove the empty middle void */
             position: relative;
+            z-index: 5;
+        }
+
+        /* Bottom Ad Container outside the content container to guarantee it is below everything */
+        .bottom-ad-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
             z-index: 5;
         }
 
@@ -229,15 +239,17 @@
         <button class="btn" id="actionBtn">💥 HIT ME! 💥</button>
         <p id="message">[- Awaiting Interactive Input -]</p>
 
-        <div class="ad-banner-horizontal">
-            <a href="#"><img id="bottomAdImg" src="" alt="Bottom Advertisement"></a>
-        </div>
-
         <div class="retro-footer">
             <div>YOU ARE VISITOR NUMBER:</div>
             <div class="hit-counter" id="countBox">0024791</div>
         </div>
 
+    </div>
+
+    <div class="bottom-ad-container">
+        <div class="ad-banner-horizontal">
+            <a href="#"><img id="bottomAdImg" src="" alt="Bottom Advertisement"></a>
+        </div>
     </div>
 
     <script>
