@@ -9,7 +9,7 @@
         body {
             font-family: "Comic Sans MS", "Arial", sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0 20px 20px 20px;
             background-color: #0336ca; /* Flat vibrant blue */
             color: #ffffff;
             display: flex;
@@ -17,18 +17,42 @@
             align-items: center;
             min-height: 95vh;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Container to group and center the layered top-left graphics */
-        .logo-stack-container {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 620px; 
-            height: auto;
+        /* Full Header Area covering the top of the website */
+        .header-wrapper {
+            position: relative;
+            width: 100vw;
+            min-height: 220px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        /* Background repository banner stretched to fit the entire top header */
+        .repo-bg-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* Container centered over the background banner */
+        .logo-stack-container {
+            position: relative;
+            width: 100%;
+            max-width: 620px; 
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
         }
 
         /* WWW Backing GIF */
@@ -38,7 +62,7 @@
             max-width: 620px; 
             height: auto;
             border: none;
-            z-index: 1; 
+            z-index: 3; 
         }
 
         /* Front Logo GIF */
@@ -48,13 +72,13 @@
             max-width: 520px; 
             height: auto;
             border: none;
-            z-index: 2; 
+            z-index: 4; 
         }
 
         /* Side Advertisement Columns */
         .side-ad-column {
             position: absolute;
-            top: 220px; 
+            top: 260px; 
             width: 160px;
             display: flex;
             flex-direction: column;
@@ -132,7 +156,7 @@
             margin: 20px 0;
         }
 
-        /* Horizontal Advertisement Banner Styling (MADE BIGGER IN HEIGHT) */
+        /* Horizontal Advertisement Banner Styling */
         .ad-banner-horizontal {
             width: 100%;
             max-width: 960px; 
@@ -165,7 +189,7 @@
             text-align: center;
             max-width: 960px;
             width: 100%;
-            margin-top: 200px; 
+            margin-top: 0; 
             position: relative;
             z-index: 5;
             display: flex;
@@ -183,36 +207,6 @@
             z-index: 5;
         }
 
-        /* Responsive shift for narrower screens/mobile views */
-        @media (max-width: 1200px) {
-            .logo-stack-container {
-                position: relative;
-                top: 0;
-                left: 0;
-                width: 100%;
-                max-width: 620px;
-                margin-bottom: 20px;
-            }
-            .main-content {
-                margin-top: 0;
-            }
-            .side-ad-column {
-                position: relative;
-                top: 0;
-                width: 100%;
-                max-width: 300px;
-                left: 0;
-                right: 0;
-                margin: 20px auto;
-            }
-            .side-ad-box {
-                height: 250px;
-            }
-            .ad-banner-horizontal {
-                max-width: 90%;
-            }
-        }
-
         h1 {
             color: #00ffff;
             font-size: 28px;
@@ -224,6 +218,7 @@
             font-size: 16px;
             font-weight: bold;
             margin: 8px 0;
+            word-wrap: break-word;
         }
 
         /* Simple Chunky Button */
@@ -268,13 +263,48 @@
             display: inline-block;
             margin-top: 5px;
         }
+
+        /* Responsive shift for screens, tablets, and mobile views */
+        @media (max-width: 1300px) {
+            .side-ad-column {
+                position: relative;
+                top: 0;
+                width: 100%;
+                max-width: 300px;
+                left: 0;
+                right: 0;
+                margin: 20px auto;
+            }
+            .side-ad-box {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .header-wrapper {
+                min-height: 140px;
+            }
+            .logo-stack-container {
+                height: 120px;
+                max-width: 90%;
+            }
+            .ad-banner-horizontal {
+                height: 90px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="logo-stack-container">
-        <img src="WWW.gif" alt="WWW Background Graphic" class="back-gif">
-        <img src="logo.gif" alt="Site Logo" class="front-logo">
+    <div class="header-wrapper">
+        <img src="Advertisements/Banner.png" alt="Header Background Banner" class="repo-bg-banner">
+        <div class="logo-stack-container">
+            <img src="WWW.gif" alt="WWW Background Graphic" class="back-gif">
+            <img src="logo.gif" alt="Site Logo" class="front-logo">
+        </div>
     </div>
 
     <div class="side-ad-column ad-left-column" id="leftAdContainer"></div>
