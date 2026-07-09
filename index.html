@@ -230,6 +230,8 @@
             font-weight: bold;
             cursor: pointer;
             font-family: "Comic Sans MS", sans-serif;
+            text-decoration: none; /* In case anchor fallback styling triggers */
+            display: inline-block;
         }
 
         .btn:active {
@@ -247,64 +249,6 @@
             color: #000000;
         }
 
-        /* Retro Popup/Modal Styles */
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .popup-window {
-            background-color: #c0c0c0;
-            color: #000000;
-            border: 3px outset #ffffff;
-            width: 400px;
-            max-width: 90%;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-        }
-
-        .popup-header {
-            background: linear-gradient(90deg, #000080, #1084d0);
-            color: white;
-            padding: 4px 8px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-        }
-
-        .popup-close-btn {
-            background-color: #c0c0c0;
-            border: 2px outset #ffffff;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        .popup-close-btn:active {
-            border: 2px inset #ffffff;
-        }
-
-        .popup-body {
-            padding: 20px;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-        }
-
         /* Status Output Text */
         #message {
             margin-top: 12px;
@@ -313,23 +257,13 @@
             font-family: monospace;
         }
 
-        /* Web Counter Footer */
+        /* Web Counter Footer Frame Divider */
         .retro-footer {
             margin-top: 25px;
             border-top: 1px solid #ffffff;
             padding-top: 15px;
             width: 100%;
             max-width: 500px;
-        }
-
-        .hit-counter {
-            background: #000000;
-            color: #ff0000;
-            font-family: monospace;
-            font-size: 18px;
-            padding: 2px 6px;
-            display: inline-block;
-            margin-top: 5px;
         }
 
         /* Responsive shift for screens, tablets, and mobile views */
@@ -397,33 +331,19 @@
         <h1>💥 title 💥</h1>
         
         <div class="nav-container">
-            <button class="btn btn-interactives" id="interactivesBtn">👾 Interactives</button>
-            <button class="btn btn-videos" id="videosBtn">🎬 Videos</button>
+            <a href="interactives.html" class="btn btn-interactives" id="interactivesBtn">👾 Interactives</a>
+            <a href="videos.html" class="btn btn-videos" id="videosBtn">🎬 Videos</a>
         </div>
         
         <p id="message">[- Awaiting Interactive Input -]</p>
 
-        <div class="retro-footer">
-            <div>YOU ARE VISITOR NUMBER:</div>
-            <div class="hit-counter" id="countBox">0024791</div>
-        </div>
+        <div class="retro-footer"></div>
 
     </div>
 
     <div class="bottom-ad-container">
         <div class="ad-banner-horizontal">
             <a href="#"><img id="bottomAdImg" src="" alt="Bottom Advertisement"></a>
-        </div>
-    </div>
-
-    <div class="popup-overlay" id="popupOverlay">
-        <div class="popup-window">
-            <div class="popup-header">
-                <span id="popupTitle">System Alert</span>
-                <button class="popup-close-btn" id="popupClose">X</button>
-            </div>
-            <div class="popup-body" id="popupBody">
-                </div>
         </div>
     </div>
 
@@ -436,8 +356,6 @@
 
         // --- MARQUEE SPEED CONFIGURATION ---
         const MARQUEE_SPEED = 2.5; 
-        
-        // Safety gap space (in pixels) between sentences so they don't crash into each other
         const MARQUEE_GAP = 120; 
 
         // --- EDITABLE SENTENCES TABLE ---
@@ -466,7 +384,6 @@
             let containerWidth = container.offsetWidth;
             let activeSpans = [];
 
-            // Spawns a fresh randomized item into our scrolling array
             function spawnSentenceItem(startX) {
                 const span = document.createElement('span');
                 span.className = 'marquee-item';
@@ -481,48 +398,34 @@
                 };
             }
 
-            // Seed the initial item right at the edge of the container
             activeSpans.push(spawnSentenceItem(containerWidth));
 
             function animate() {
-                // Loop backwards so we can safely delete objects out of the array mid-loop
                 for (let i = activeSpans.length - 1; i >= 0; i--) {
                     let item = activeSpans[i];
-                    
-                    // Move the position leftwards
                     item.x -= MARQUEE_SPEED;
                     
-                    // Measure element width dynamically once it loads into the DOM
                     if (!item.computed) {
                         item.width = item.element.offsetWidth;
                         if (item.width > 0) {
                             item.computed = true;
-                            // FIX: Only make element visible once its width is computed and transform coordinates apply
                             item.element.style.opacity = "1";
                         }
                     }
 
-                    // Apply the movement update instantly via CSS transform
                     item.element.style.transform = `translateX(${item.x}px)`;
 
-                    // CLEANUP: Delete ONLY when the tail end goes entirely off the screen (< 0)
                     if (item.computed && (item.x + item.width) < 0) {
                         item.element.remove();
                         activeSpans.splice(i, 1);
                     }
                 }
 
-                // SPAWN CHECK: Look at the very last sentence in the list
                 if (activeSpans.length > 0) {
                     let lastItem = activeSpans[activeSpans.length - 1];
-                    
                     if (lastItem.computed) {
-                        // Calculate where the trailing edge of the last sentence is right now
                         let lastItemTail = lastItem.x + lastItem.width;
-                        
-                        // If it has cleared enough space below the container edge, cue up the next sentence seamlessly
                         if (lastItemTail < (containerWidth - MARQUEE_GAP)) {
-                            // Start the next item right behind it plus your defined gap
                             let nextStartX = Math.max(containerWidth, lastItemTail + MARQUEE_GAP);
                             activeSpans.push(spawnSentenceItem(nextStartX));
                         }
@@ -534,7 +437,6 @@
                 requestAnimationFrame(animate);
             }
 
-            // Window resize adjustment check
             window.addEventListener('resize', () => {
                 containerWidth = container.offsetWidth;
             });
@@ -608,59 +510,6 @@
             generateSideAds('leftAdContainer', SIDE_AD_COUNT);
             generateSideAds('rightAdContainer', SIDE_AD_COUNT);
             fetchAdsFromGitHub();
-        });
-
-        // POPUP LOGIC FOR THE NEW BUTTONS
-        const overlay = document.getElementById('popupOverlay');
-        const popupTitle = document.getElementById('popupTitle');
-        const popupBody = document.getElementById('popupBody');
-        const closeBtn = document.getElementById('popupClose');
-        const msgStatus = document.getElementById('message');
-        const countBox = document.getElementById('countBox');
-
-        function updateVisitorCount() {
-            const currentCount = parseInt(countBox.textContent, 10);
-            countBox.textContent = String(currentCount + 1).padStart(7, '0');
-        }
-
-        // Click Interactives
-        document.getElementById('interactivesBtn').addEventListener('click', function() {
-            popupTitle.textContent = "🎮 Loading Interactives... 🎮";
-            popupBody.innerHTML = `
-                <p style="color: #000; font-weight: normal;">Your interactive game/app code will go here!</p>
-                <div style="background: #000; color: #00ff00; padding: 10px; font-family: monospace; border: 2px inset #fff;">
-                    // TODO: Paste your script or interactive object frames here
-                </div>
-            `;
-            overlay.style.display = 'flex';
-            msgStatus.innerHTML = `★ SELECTION: Interactives loaded at ${new Date().toLocaleTimeString()} ★`;
-            updateVisitorCount();
-        });
-
-        // Click Videos
-        document.getElementById('videosBtn').addEventListener('click', function() {
-            popupTitle.textContent = "📺 Loading Videos... 📺";
-            popupBody.innerHTML = `
-                <p style="color: #000; font-weight: normal;">Your media/video embed frames go here!</p>
-                <div style="border: 3px dashed #ff0000; padding: 15px; color: #ff0000; font-weight: bold;">
-                    [ Insert Video Player / YouTube Embed / WebM Code Here ]
-                </div>
-            `;
-            overlay.style.display = 'flex';
-            msgStatus.innerHTML = `★ SELECTION: Videos loaded at ${new Date().toLocaleTimeString()} ★`;
-            updateVisitorCount();
-        });
-
-        // Close Popup Window
-        closeBtn.addEventListener('click', function() {
-            overlay.style.display = 'none';
-        });
-
-        // Close on backing frame click
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-                overlay.style.display = 'none';
-            }
         });
     </script>
 
